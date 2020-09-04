@@ -74,17 +74,12 @@
                     <li><a href="about-us.html">About Us</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="portfolio.html">Portfolio</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contact-us.html">Contact</a></li>
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <i class="icon-angle-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="project-item.html">Project Single</a></li>
-                            <li><a href="blog-item.html">Blog Single</a></li>
-                            <li class="active"><a href="404.html">404</a></li>
-                        </ul>
-                    </li>
-                    <li><span class="search-trigger"><i class="fa fa-search"></i></span></li>
+                    {% if user.is_authenticated %}
+                      <li>User: {{ user.get_username }}</li>
+                      <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+                    {% else %}
+                      <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                    {% endif %} 
                 </ul>
             </div>
         </div>
