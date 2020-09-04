@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Registration Question</title>
+    <link href="{% static 'index.css' %}">
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/pe-icons.css'%}" rel="stylesheet">
@@ -18,7 +19,7 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->
-    <link href="{% static 'js/index.css' %}">
+    
     <script src="{% static 'js/jquery.js' %}"></script>
     <link rel="shortcut icon" href="{% static 'images/ico/favicon.ico' %}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144x144.png' %}">
@@ -87,6 +88,25 @@
             </div>
         </div>
     </header>
+    <section id="single-page-slider" class="no-margin">
+        <div class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="center gap fade-down section-heading">
+                                    <h2 class="main-title">Welcome to maval investment platform</h2>
+                                    <hr>
+                                    <p style="letter-spacing: 1px">Please answer a few questions to help us get to know you better</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/.item-->
+            </div><!--/.carousel-inner-->
+        </div><!--/.carousel-->
+    </section>
     
     <div id="content-wrapper">
       {% block content%}

@@ -1,14 +1,45 @@
-{% load static %}
+{% extends "base_generic.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MAVAL Investment</title>
-    <link rel="stylesheet" type="text/css" href= "{% static 'index.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-</head>
-<body>
+{% block content %}
+<div class="white">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="myinfo-wrapper">
+					<div class="myinfo-header">
+						<h4>placeholder</h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="dashboard-wrapper">
+					<div class="dashboard-header">
+						<h4>placeholder</h4>
+					</div>
+					<img src="https://docs.imply.io/images/pivot-dashboard.png" style="max-width: 100%">
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="news-wrapper">
+					<div class="news-header">
+						<h4>placeholder</h4>
+					</div>
+					<div class="news-item">
+						<div class="news-item-wrapper">
+							<div class="news-item-img-wrapper">
+								<img src="https://docs.imply.io/images/pivot-dashboard.png" style="max-width: 100%">
+							</div>
+							<div class="news-item-headline">
+								<p>abc</p>
+							</div>
+						</div>
+					</div>
+					<div class="news-item">1</div>
+					<div class="news-item">1</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-</body>
-</html>
+{% endblock %}

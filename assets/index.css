@@ -96,3 +96,6 @@ input.form-control{
 .header-form-subtitle-text{
 	font-family: "Quicksand", sans-serif;
 }
+.dashboard-wrapper img{
+	max-width: 100%;
+}
