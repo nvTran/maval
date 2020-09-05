@@ -183,7 +183,7 @@ def dashboard(request):
         script, div = components(p_stock)
         kwargs = {'script': script, 'div': div}
         #kwargs['title'] = 'bokeh-with-flask'    
-        return render(request, 'dashboard.html', {"kwargs": kwargs}) 
+        return render(request, 'dashboard.html', {**kwargs}) 
     else:
         return render(request, 'dashboard.html')
 
