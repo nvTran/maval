@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<title>{{ title }}</title>-->
+
+<link
+    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-widgets.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-tables.css"
+    rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <!--<h1>line chart with bokeh in flask</h1>-->
+        <h1>Body</h1>
+        <form action="{{ url_for('plot') }}" method="POST">
+            <input type = "text" name = "symbol">
+            <input type = "submit" id="submit">
+        </form>
+
+        {{ div|safe }}
+        {{ script|safe }}
+        
+        
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-widgets.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-tables.js"></script>
+    <script>
+        $.post({
+            url: "{{ url_for('plot') }}",
+            success: function(data){
+                console.log(data);
+            },
+            error: function() { console.log("Error", arguments); }
+
+        });
+    </script>
+    
+    <!--<script>
+        document.getElementById("submit").addEventListener("click", function(event){
+          event.preventDefault()
+        });
+    </script> -->
+
+    <!-- <script>
+        const response = await fetch('/plot')
+        const item = await response.json()
+        Bokeh.embed.embed_item(item)
+    </script>
+-->
+</html>
