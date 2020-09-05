@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <div>
+      
+
+        <h1>Welcome, {{user.user}}</h1>
+        {{stock_and_prices}}
+        You currently have {{user.current_budget}}
+        Here are the list of stock you can buy
+        <table>
+            <tr>
+                <th>Stock</th>
+                <th>Company</th>
+                <th>Price</th>
+              </tr>
+            {%for key, values in stock_and_prices.items %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>name</td>
+                <td>{{values}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        
+    </div>
+    
+
+
+</html>

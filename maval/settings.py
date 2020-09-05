@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainapp'
+    'mainapp',
+    'yahoo_fin'
 ]
 
 MIDDLEWARE = [
@@ -131,4 +132,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/homepage'
+
+# CRONJOBS = [
+#     ('30 4 * * *', 'mainapp.cron.update_stock_price_daily')
+# ]
+
+APPEND_SLASH=False
