@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>News</h1>
+        <form action="/news/" name='news' method="POST">
+            {% csrf_token %}
+
+            <input type = "text" name = "symbol">
+            <input type = "submit" id="submit">
+        </form>
+
+        <table>
+            <tr>
+                <th>URL</th>
+                <th>Title</th>
+                <th>Body</th>
+            </tr>
+            {%for item in news_list %}
+              {% for key, value in item.items %}
+            <tr>
+                <td>
+                {% if key == 'url' %}      
+                    <a href = "{{value}}">{{value}}</a>
+                </td>
+                <td>
+                {% elif key == 'title' %}      
+                    {{ value }}    
+                </td>
+                {% endif %}
+            </tr>
+                {%endfor%}
+            {%endfor%}
+        </table>
+</body>
+</html>
