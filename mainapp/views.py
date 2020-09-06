@@ -72,16 +72,21 @@ def playground(request):
         stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
         stock_and_prices = {}
         for stock in stock_list:
-            print(stock)
+            # try:
+            #     company_name =  yf.Ticker(stock).info['longName']
+            # except IndexError:
+            #     company_name = ""
+            
             price = si.get_live_price(stock)
-            print(price)
-            stock_and_prices[stock] = price
-        print(stock_and_prices)
+                
+            stock_and_prices[stock] = {'price': price}
+        
         user = Profile.objects.get(user = current_user)
         if request.method == "GET":
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user })
         if request.method == 'POST':
             if request.data['action'] == 'buy':
+                
                 pass
 
             if request.data['action'] == 'sell':    
@@ -167,8 +172,6 @@ def dashboard(request):
 
         
         stock = ColumnDataSource(data=dict(Date=[], Open=[], Close=[], High=[], Low=[],index=[]))
-        #stock = AjaxDataSource(data=dict(Date=[], Open=[], Close=[], High=[], Low=[],index=[]),data_url='http://127.0.0.1:5000/plot',polling_interval=1000,mode='append')
-        #symbol = 'msft'
         df = get_symbol_df(symbol)
         stock.data = stock.from_df(df)
         elements = list()
@@ -185,7 +188,6 @@ def dashboard(request):
 
         script, div = components(p_stock)
         kwargs = {'script': script, 'div': div}
-        #kwargs['title'] = 'bokeh-with-flask'    
         return render(request, 'dashboard.html', {**kwargs}) 
     else:
         return render(request, 'dashboard.html')
