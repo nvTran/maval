@@ -99,3 +99,7 @@ input.form-control{
 .dashboard-wrapper img{
 	max-width: 100%;
 }
+.signin-form-wrapper{
+	border: 1px solid;
+	width: 85%;
+}

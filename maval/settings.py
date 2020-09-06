@@ -138,4 +138,3 @@ LOGIN_REDIRECT_URL = '/homepage'
 #     ('30 4 * * *', 'mainapp.cron.update_stock_price_daily')
 # ]
 
-APPEND_SLASH=False

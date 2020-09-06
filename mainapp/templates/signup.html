@@ -1,4 +1,11 @@
+{% extends "base_generic.html" %}
 
+{% block content %}
+<div class="signup-form-wrapper white">
+  <div class="container">
+    <h3 class="header-form-title">sign up</h3>
+  </div>
+</div>
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
@@ -16,3 +23,5 @@
     {% endfor %}
     <button type="submit">Sign up</button>
   </form>
+
+{% endblock %}
