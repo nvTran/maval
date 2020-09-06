@@ -14,7 +14,7 @@ body, html{
 }
 .page-header-wrapper:after{
 	content: "";
-	background-image: url("../media/bg.jpg");
+	background-image: url("../media/bg2.jpg");
 	opacity: 0.3;
 	top: 0;
 	left: 0;
@@ -52,11 +52,13 @@ body, html{
 	margin-bottom: 2em;
 	font-family: "Montserrat", sans-serif;
 	font-size: 1.9em;
-	font-weight: bolder;
-	color: #424242;
+	font-weight: bold;
+	color: #00ff89;
 }
 .header-intro-subtitle{
 	font-family: "Quicksand", sans-serif;
+	color: white;
+	font-weight: bold;
 }
 .header-su-form-wrapper{
 	display: none;
@@ -72,12 +74,14 @@ body, html{
 	text-align: center;
 	padding: 2em;
 	font-family: "Montserrat", sans-serif;
+	background-color: white;
 }
 .header-form-title-text{
 	text-transform: uppercase;
 }
 .header-form-signin .form-group{
 	margin-bottom: 3em;
+	border-radius: 25px;
 }
 input.form-control{
 	width: 80%;
@@ -90,8 +94,11 @@ input.form-control{
 	font-family: "Montserrat", sans-serif;
 }
 .header-form-signin button, .header-form-subtitle{
-	margin-left: 10%;
+	margin-left: 25%;
 	margin-bottom: 3em;
+	width: 50%;
+	border-radius: 30px;
+	font-weight: bold;
 }
 .header-form-subtitle-text{
 	font-family: "Quicksand", sans-serif;
@@ -102,6 +109,7 @@ input.form-control{
 .signin-form-wrapper{
 	border: 1px solid;
 	width: 85%;
+	border-radius: 10px;
 }
 .header-form-signin .form-group input{
 	margin-left: 2em;
@@ -134,4 +142,26 @@ input.form-control{
 }
 .landing-getstarted{
 	text-align: center;
+	width: 82%;
+}
+.header-form-signin{
+	background-color: white;
+}
+.signin-form{
+	width: 100%;
+	height: 100%;
+	background-image: url("../images/bg2.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.register-info .form-control {
+	margin-left: 0;
+	width: 100%;
+}
+.landing-wrapper{
+	background-image: url("../images/landingpage.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }

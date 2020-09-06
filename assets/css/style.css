@@ -1493,6 +1493,7 @@ img.author-box-image {
     z-index: 5;
     position: relative;
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0 !important;
 }
 
 .white {
@@ -1514,7 +1515,6 @@ img.author-box-image {
 #footer-wrapper {
     z-index: 1;
     padding-top: 60px;
-    position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #202020;
