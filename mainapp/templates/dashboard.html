@@ -28,6 +28,28 @@
         {{ div|safe }}
         {{ script|safe }}
         
+        <table>
+            <tr>
+                <th>URL</th>
+                <th>Title</th>
+                <th>Body</th>
+            </tr>
+            {%for item in news_list %}
+              {% for key, value in item.items %}
+            <tr>
+                <td>
+                {% if key == 'url' %}      
+                    <a href = "{{value}}">{{value}}</a>
+                </td>
+                <td>
+                {% elif key == 'title' %}      
+                    {{ value }}    
+                </td>
+                {% endif %}
+            </tr>
+                {%endfor%}
+            {%endfor%}
+        </table>
         
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh.min.js"></script>
