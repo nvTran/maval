@@ -133,15 +133,26 @@ input.form-control{
 }
 .landing-title{
 	text-align: center;
+	font-size: 45px;
+	font-family: "Montserrat", sans-serif;
+	margin-bottom: 5%;
 }
 .landing-subtitle{
 	text-align: center;
+	margin-top: 14px;
 }
 .landing-getstarted{
 	text-align: center;
-	width: 82%;
 }
 
 .signin-form{
 	background-image: url("../media/bg2.jpeg");
+}
+
+.btn{
+	font-size: 13px;
+	letter-spacing: 1px !important;
+	font-weight: bold !important;
+	border-radius: 35px !important;
+	background-color: #00ff89;
 }
