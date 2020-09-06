@@ -26,7 +26,7 @@ SECRET_KEY = 'ytv%accsqgrh8=w3p1m=pm4qwk5+!z0dsnykv^ogf986ksoksc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -138,4 +138,3 @@ LOGIN_REDIRECT_URL = '/homepage'
 #     ('30 4 * * *', 'mainapp.cron.update_stock_price_daily')
 # ]
 
-APPEND_SLASH=False

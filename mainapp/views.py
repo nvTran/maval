@@ -84,14 +84,22 @@ def playground(request):
         user = Profile.objects.get(user = current_user)
         if request.method == "GET":
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user })
-        if request.method == 'POST':
-            if request.data['action'] == 'buy':
-                
-                pass
-
-            if request.data['action'] == 'sell':    
-                pass
-            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user })
+        if request.method == 'POST':    
+            stock_purchased = request.POST.dict()
+            print(stock_purchased)
+            total_sum = 0
+            for key, value in stock_purchased.items():
+                if key == 'csrfmiddlewaretoken':
+                    pass
+                else:
+                    if value != '':
+                        price = stock_and_prices[key]['price']
+                        total_sum += price*int(value)
+                    else:
+                        pass
+            message = 'you have spent $'+ str(total_sum)
+            
+            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message })
     else:
         return redirect(landingpage)
 
@@ -188,20 +196,63 @@ def dashboard(request):
 
         script, div = components(p_stock)
         kwargs = {'script': script, 'div': div}
-        return render(request, 'dashboard.html', {**kwargs}) 
+
+        stock_list = ["MSFT", "AAPL"]
+        er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
+        q = QueryArticlesIter(
+            keywords = QueryItems.OR(stock_list),
+            dataType = ["news"],
+            lang = 'eng'
+        )
+        news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
+        return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list}) 
     else:
         return render(request, 'dashboard.html')
 
     
 def news(request):
-    if request.method == 'POST':
-        #stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
-        symbol = request.POST.get('symbol')
+    if request.method == 'GET':
+        stock_list = ["MSFT", "AAPL"]
+        # symbol = request.POST.get('symbol')
         er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
         q = QueryArticlesIter(
-            keywords = QueryItems.OR(symbol),
-            dataType = ["news", "blog"]
+            keywords = QueryItems.OR(stock_list),
+            dataType = ["news"],
+            lang = 'eng'
         )
-        return render(request, 'news.html', {'news_list' : q.execQuery(er, sortBy = "date", maxItems = 10)})
-    else:
-        return render(request, 'news.html')
+        news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
+        return render(request, 'news.html', {'news_list' : news_list })
+    
+def register(request):
+    if request.method == "POST":
+        currentBudget = request.POST.get('currentBudget')
+        riskTolerance = 0
+        if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
+            riskTolerance = 0.5 
+        elif 3000 < int(currentBudget) and  int(currentBudget) <= 6000:
+            riskTolerance = 1.5
+        elif 6000 < int(currentBudget) and  int(currentBudget) <= 10000:
+            riskTolerance = 2.5
+        elif int(currentBudget) > 10000:
+            riskTolerance = 3.5
+        
+        return render(request, 'risk.html', {'riskTolerance': riskTolerance})
+    else: 
+        return render(request, 'register.html')
+
+def register(request):
+    if request.method == "POST":
+        currentBudget = request.POST.get('currentBudget')
+        riskTolerance = 0
+        if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
+            riskTolerance = 0.5 
+        elif 3000 < int(currentBudget) and  int(currentBudget) <= 6000:
+            riskTolerance = 1.5
+        elif 6000 < int(currentBudget) and  int(currentBudget) <= 10000:
+            riskTolerance = 2.5
+        elif int(currentBudget) > 10000:
+            riskTolerance = 3.5
+        
+        return render(request, 'risk.html', {'riskTolerance': riskTolerance})
+    else: 
+        return render(request, 'register.html')
