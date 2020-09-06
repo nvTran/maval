@@ -159,3 +159,9 @@ input.form-control{
 	margin-left: 0;
 	width: 100%;
 }
+.landing-wrapper{
+	background-image: url("../images/landingpage.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
