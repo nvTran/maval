@@ -223,22 +223,6 @@ def news(request):
         news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
         return render(request, 'news.html', {'news_list' : news_list })
     
-def register(request):
-    if request.method == "POST":
-        currentBudget = request.POST.get('currentBudget')
-        riskTolerance = 0
-        if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
-            riskTolerance = 0.5 
-        elif 3000 < int(currentBudget) and  int(currentBudget) <= 6000:
-            riskTolerance = 1.5
-        elif 6000 < int(currentBudget) and  int(currentBudget) <= 10000:
-            riskTolerance = 2.5
-        elif int(currentBudget) > 10000:
-            riskTolerance = 3.5
-        
-        return render(request, 'risk.html', {'riskTolerance': riskTolerance})
-    else: 
-        return render(request, 'register.html')
 
 def register(request):
     return render(request, "register.html")
