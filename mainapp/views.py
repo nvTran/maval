@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from .models import Profile
+from .models import *
 from django.contrib.auth.decorators import login_required
 from yahoo_fin import stock_info as si
 import yfinance as yf
@@ -72,11 +72,6 @@ def playground(request):
         stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
         stock_and_prices = {}
         for stock in stock_list:
-            # try:
-            #     company_name =  yf.Ticker(stock).info['longName']
-            # except IndexError:
-            #     company_name = ""
-            
             price = si.get_live_price(stock)
                 
             stock_and_prices[stock] = {'price': price}
@@ -86,8 +81,9 @@ def playground(request):
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user })
         if request.method == 'POST':    
             stock_purchased = request.POST.dict()
-            print(stock_purchased)
             total_sum = 0
+            # individual_port= Portfolio.objects.get_or_create(user = user)
+            user_portfolios = Portfolio.objects.get(user = user)
             for key, value in stock_purchased.items():
                 if key == 'csrfmiddlewaretoken':
                     pass
@@ -95,8 +91,20 @@ def playground(request):
                     if value != '':
                         price = stock_and_prices[key]['price']
                         total_sum += price*int(value)
+                        if key in individual_port.portfolio.keys():
+                            individual_port[key] += value
+                        else:
+                            individual_port[key] = value
+
                     else:
                         pass
+            individual_port.save()
+            current_budget = user.current_budget - total_sum
+            portfolio = Portfolio.objects.get(user= user)
+            
+
+            user.save()
+            portfolio.save()
             message = 'you have spent $'+ str(total_sum)
             
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message })
@@ -210,11 +218,11 @@ def dashboard(request):
         return render(request, 'dashboard.html')
 
        
-
+@login_required
 def register(request):
     return render(request, "register.html")
     
-
+@login_required
 def risk(request):
     if request.method == "POST":
         currentBudget = request.POST.get('monthlyIncome')
@@ -227,8 +235,10 @@ def risk(request):
             riskTolerance = 2.5
         elif int(currentBudget) > 10000:
             riskTolerance = 3.5
-        else: 
-            return render(request, 'register.html')
+        current_user = request.user
+        user = Profile.objects.get(user = current_user)
+        user.current_budget = currentBudget
+        user.save()
         
         return render(request, 'risk.html', {'riskTolerance': riskTolerance})
     else: 
