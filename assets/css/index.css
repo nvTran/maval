@@ -168,3 +168,9 @@ input.form-control{
 	border-radius: 35px !important;
 	font-weight: bold !important;
 }
+.landing-wrapper{
+	background-image: url("../images/landingpage.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
