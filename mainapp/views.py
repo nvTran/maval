@@ -209,20 +209,7 @@ def dashboard(request):
     else:
         return render(request, 'dashboard.html')
 
-    
-def news(request):
-    if request.method == 'GET':
-        stock_list = ["MSFT", "AAPL"]
-        # symbol = request.POST.get('symbol')
-        er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
-        q = QueryArticlesIter(
-            keywords = QueryItems.OR(stock_list),
-            dataType = ["news"],
-            lang = 'eng'
-        )
-        news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
-        return render(request, 'news.html', {'news_list' : news_list })
-    
+       
 
 def register(request):
     return render(request, "register.html")
