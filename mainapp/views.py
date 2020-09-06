@@ -241,8 +241,12 @@ def register(request):
         return render(request, 'register.html')
 
 def register(request):
+    return render(request, "register.html")
+    
+
+def risk(request):
     if request.method == "POST":
-        currentBudget = request.POST.get('currentBudget')
+        currentBudget = request.POST.get('monthlyIncome')
         riskTolerance = 0
         if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
             riskTolerance = 0.5 
@@ -252,6 +256,8 @@ def register(request):
             riskTolerance = 2.5
         elif int(currentBudget) > 10000:
             riskTolerance = 3.5
+        else: 
+            return render(request, 'register.html')
         
         return render(request, 'risk.html', {'riskTolerance': riskTolerance})
     else: 
