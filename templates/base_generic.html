@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/images/ico/apple-touch-icon-72x72.png' %}">
     <link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57x57.png' %}">
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
     jQuery(document).ready(function($){
     'use strict';
         jQuery('body').backstretch([
@@ -54,7 +54,7 @@
             longitude: -73.9863,
             zoom: 14 });
     });
-    </script>
+    </script> -->
 </head>
 <body>
     <div id="preloader"></div>
@@ -102,7 +102,7 @@
         </div><!--/.carousel-->
     </section>
     
-    <div id="content-wrapper">
+    <div id="content-wrapper" style="margin-bottom: 0">
       {% block content%}
       {% endblock %}
     </div>

@@ -57,6 +57,8 @@ body, html{
 }
 .header-intro-subtitle{
 	font-family: "Quicksand", sans-serif;
+	color: white;
+	font-weight: bold;
 }
 .header-su-form-wrapper{
 	display: none;
@@ -72,6 +74,7 @@ body, html{
 	text-align: center;
 	padding: 2em;
 	font-family: "Montserrat", sans-serif;
+	background-color: white;
 }
 .header-form-title-text{
 	text-transform: uppercase;
@@ -141,7 +144,18 @@ input.form-control{
 	text-align: center;
 	width: 82%;
 }
-
+.header-form-signin{
+	background-color: white;
+}
 .signin-form{
-	background-image: url("../media/bg2.jpeg");
+	width: 100%;
+	height: 100%;
+	background-image: url("../images/bg2.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.register-info .form-control {
+	margin-left: 0;
+	width: 100%;
 }
