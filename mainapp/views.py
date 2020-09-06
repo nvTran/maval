@@ -25,6 +25,9 @@ from bokeh.embed import components
 from bokeh.plotting import figure
 from bokeh.embed import components, json_item
 
+from eventregistry import *
+
+
 
 
 
@@ -190,3 +193,15 @@ def dashboard(request):
         return render(request, 'dashboard.html')
 
     
+def news(request):
+    if request.method == 'POST':
+        #stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
+        symbol = request.POST.get('symbol')
+        er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
+        q = QueryArticlesIter(
+            keywords = QueryItems.OR(symbol),
+            dataType = ["news", "blog"]
+        )
+        return render(request, 'news.html', {'news_list' : q.execQuery(er, sortBy = "date", maxItems = 10)})
+    else:
+        return render(request, 'news.html')
