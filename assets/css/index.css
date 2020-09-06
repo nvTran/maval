@@ -106,3 +106,32 @@ input.form-control{
 .header-form-signin .form-group input{
 	margin-left: 2em;
 }
+.step1-wrapper{
+	height: 100%;
+}
+.step-number-wrapper{
+	display: inline-block;
+	width: 10%;
+	height: 100%;
+}
+.step-number{
+	border: 1px solid;
+	border-radius: 50%;
+	height: 5em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.step-text-wrapper{
+	display: inline-block;
+	float: right;
+}
+.landing-title{
+	text-align: center;
+}
+.landing-subtitle{
+	text-align: center;
+}
+.landing-getstarted{
+	text-align: center;
+}
