@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action='/risk/' method='POST'>
+        {% csrf_token %}
+        <label for='age'>Age:</label>
+        <input type='text' id='age' name='age'><br>
+
+        <label for='occupation'>Occupation:</label>
+        <input type='text' id='occupation' name='occupation'><br>
+
+        <label for="gender">Gender:</label>
+        <select name="gender" id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Rather not to say">Rather not to say</option>
+        </select>
+
+        <label for="financialKnowledge">How is your financial knowledge:</label>
+        <select name="gender" id="gender">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+
+        <label for='monthlyExpense'>Monthly Expense:</label>
+        <input type='text' id='monthlyExpense' name='monthlyExpense'><br>
+
+        <label for='monthlyIncome'>Monthly Income:</label>
+        <input type='text' id='monthlyIncome' name='monthlyIncome'><br>
+
+        <label for='currentBudget'>e-Budget for Trial Investment:</label>
+        <input type='text' id='currentBudget' name='currentBudget'><br>
+
+        <label for='financialGoals'>What is your financial goals:</label>
+        <input type='text' id='financialGoals' name='financialGoals' value = 'e.g. Buy a house, pay tuition fee loan'><br>
+
+        <label for="investmentOption">Assuming that you want to invest in stocks, which one would you choose?</label>
+        <select name="investmentOption" id="investmentOption">
+            <option value="Option A">Companies with significant technological advancement but selling their stocks at a low price</option>
+            <option value="Option B">Established well-known companies that have a potentially high rate of growth. “Blue chip” stocks that pay the dividend</option>
+        </select>
+
+
+        <label for="termIntended">How long you want your investment plan to be:</label>
+        <select name="termIntended" id="termIntended">
+            <option value="Long Term">Long Term</option>
+            <option value="Short Term">Short Term</option>
+        </select>
+
+
+
+        
+
+    </form>
+</body>
+
+</html>
