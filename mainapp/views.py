@@ -213,10 +213,72 @@ def dashboard(request):
             lang = 'eng'
         )
         news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
-        return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list}) 
-    else:
-        return render(request, 'dashboard.html')
 
+        url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/get-detail"
+
+        querystring = {"region":"US","lang":"en","symbol":symbol}
+
+        headers = {
+            'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
+            'x-rapidapi-key': "ff4cff81d5msh596a92309f2f43ap13412cjsn002bc2a74b4d"
+            }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        json_dict  = json.loads(response.text)
+
+
+        for key in json_dict.keys():
+            if key == "summaryDetail":
+                try:
+                    stock_close = json_dict[key]['previousClose']['raw']
+                except KeyError:
+                    stock_close = ''
+                    
+                try:
+                    stock_open = json_dict[key]['open']['raw']
+                except KeyError:
+                    stock_open = ''
+                try:
+                    stock_bid = json_dict[key]['bid']['raw']
+                except KeyError:
+                    stock_bid = ''
+                try:
+                    stock_ask = json_dict[key]['ask']['raw']
+                except KeyError:
+                    stock_ask = ''
+                try:
+                    stock_volume = json_dict[key]['volume']['fmt']
+                except KeyError:
+                    stock_volume = ''
+                try:
+                    stock_averageVolume = json_dict[key]['averageVolume']['fmt']
+                except KeyError:
+                    stock_averageVolume = ''
+                try:
+                    stock_marketCap = json_dict[key]['marketCap']['fmt']    
+                except KeyError:  
+                    stock_marketCap = ''
+            if key == "defaultKeyStatistics":
+                try:
+                    stock_weekChange = json_dict[key]['52WeekChange']['fmt']
+                except KeyError:
+                    stock_weekChange = ''
+                try:
+                    stock_beta = json_dict[key]['beta']['fmt']
+                except KeyError:
+                    stock_beta = ''
+                try:
+                    stock_EPS = json_dict[key]['trailingEps']['raw']
+                except KeyError:
+                    stock_EPS = ''
+                try:
+                    stock_PE = json_dict[key]['forwardPE']['fmt']
+                except KeyError:
+                    stock_PE = ''
+
+        return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list,'stock_close':stock_close,'stock_open':stock_open,'stock_bid':stock_bid,'stock_ask':stock_ask,'stock_volume':stock_volume,'stock_averageVolume':stock_averageVolume,'stock_marketCap':stock_marketCap,'stock_weekChange':stock_weekChange,'stock_beta':stock_beta,'stock_EPS':stock_EPS,'stock_PE':stock_PE,'stock_list':stock_list,'symbol':symbol}) 
+    else:
+        return render(request, 'dashboard.html',{'stock_list':stock_list})
        
 @login_required
 def register(request):
