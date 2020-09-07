@@ -161,8 +161,24 @@ def playground(request):
     else:
         return redirect(landingpage)
 
-
+@login_required
 def dashboard(request):
+    current_user = request.user
+    user = Profile.objects.get(user = current_user)
+    if request.user.is_authenticated:
+        all_stocks = []
+        all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
+        for indv in all_portfolios_of_current_users:
+            all_stocks.append(indv.stock)
+    else:
+        return redirect(landingpage)
+    print(all_stocks)
+
+
+
+
+
+
     if request.method == 'POST':
         symbol = request.POST.get('symbol')
         # Get Stock DataFrame
@@ -254,8 +270,8 @@ def dashboard(request):
 
         script, div = components(p_stock)
         kwargs = {'script': script, 'div': div}
-
-        stock_list = ["MSFT", "AAPL","AMZN","GOOGL"]
+        
+        stock_list = all_stocks
         er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
         q = QueryArticlesIter(
             keywords = QueryItems.OR(stock_list),
@@ -328,8 +344,9 @@ def dashboard(request):
 
         return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list,'stock_close':stock_close,'stock_open':stock_open,'stock_bid':stock_bid,'stock_ask':stock_ask,'stock_volume':stock_volume,'stock_averageVolume':stock_averageVolume,'stock_marketCap':stock_marketCap,'stock_weekChange':stock_weekChange,'stock_beta':stock_beta,'stock_EPS':stock_EPS,'stock_PE':stock_PE,'stock_list':stock_list,'symbol':symbol}) 
     else:
-        symbol = 'MSFT'
-        stock_list = ["MSFT", "AAPL","AMZN","GOOGL"]
+        
+        symbol = all_stocks[0]
+        stock_list = all_stocks
 
         msft = yf.Ticker(symbol)
         hist = msft.history(period='max')
@@ -419,7 +436,7 @@ def dashboard(request):
         script, div = components(p_stock)
         kwargs = {'script': script, 'div': div}
 
-        stock_list = ["MSFT", "AAPL"]
+        
         er = EventRegistry(apiKey = '3a7a023b-6280-4476-bec0-5c9ff41770bd')
         q = QueryArticlesIter(
             keywords = QueryItems.OR(stock_list),
