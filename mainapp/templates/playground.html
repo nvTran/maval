@@ -4,7 +4,7 @@
       
 
         <h1>Welcome, {{user.user}}</h1>
-        You currently have {{user.current_budget}}
+        Your current budget is ${{user.current_budget}}
         <br>
         Here are the list of stock you can buy
         <form method= 'POST'>
@@ -32,20 +32,28 @@
     </div>
     <div>
         Your current portfolio:
-        <table>
+        <table border= 1>
             <tr>
                 <th>Stock</th>
                 <th>Amount</th>
+                <th>Worth</th>
+                <th>Percentage</th>
             </tr>
-            {% for port in all_portfolios_of_current_users %}
+            {% for key, value in stocks_held.items %}
             <tr>
-                <td>{{port.stock}}</td>
+                <td>{{key}}</td>
             
-                <td>{{port.number}}</td>
+                <td>{{value.number}}</td>
+                <td>${{value.worth|floatformat:2}}</td>
+                <td>{{value.percentage|floatformat:2}}%</td>
             </tr>
             {% endfor %}
         
         </table>
+        {{ assets_worth }}
+        
+    </div>
+    <div>
         
     </div>
 
