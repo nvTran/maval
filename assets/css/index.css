@@ -169,8 +169,5 @@ input.form-control{
 	font-weight: bold !important;
 }
 .landing-wrapper{
-	background-image: url("../images/landingpage.jpg");
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	
 }
