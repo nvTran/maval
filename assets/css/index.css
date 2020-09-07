@@ -171,6 +171,15 @@ input.form-control{
 	font-weight: bold !important;
 	color: black !important;
 }
-.landing-wrapper{
-	
+.news-item{
+	-webkit-box-shadow: 10px 10px 20px 0px rgba(192,192,192,0.5);
+	-moz-box-shadow: 10px 10px 20px 0px rgba(192,192,192,0.5);
+	box-shadow: 10px 10px 20px 0px rgba(192,192,192,0.5);
+}
+.news-item:not(:first-child){
+	margin-top: 2em;
+}
+.news-title-text{
+	padding-bottom: 1em;
+	font-family: "Montserrat", sans-serif;
 }

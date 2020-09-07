@@ -1,110 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base_generic.html" %}
+{% load static %}
 
-    <head>
-        <meta charset="utf-8">
-        <!--<title>{{ title }}</title>-->
+{% block content %}
+    <div class="dashboard-wrapper white">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-10">
+                    <form action="/dashboard/" name='stock' method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="symbol">Stock you want to view</label>
+                            <select name='symbol' id='symbol' class="form-control">
+                                {% for symbol in stock_list %}
+                                <option value = '{{symbol}}'>{{symbol}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn landing-btn" id="submit" style="background-color: #00ff89">Submit</button>
+                    </form>
+                    <h1>{{symbol}}</h1>
+                    {{ div|safe }}
+                    {{ script|safe }}
 
-<link
-    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh.min.css"
-    rel="stylesheet" type="text/css">
-<link
-    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-widgets.css"
-    rel="stylesheet" type="text/css">
-<link
-    href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-tables.css"
-    rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <!--<h1>line chart with bokeh in flask</h1>-->
-        <h1>Body</h1>
-        <form action="/dashboard/" name='stock' method="POST">
-            {% csrf_token %}
-
-            <label for="symbol">What stock you want to view:</label>
-            <select name='symbol' id='symbol'>
-                {% for symbol in stock_list %}
-                <option value = '{{symbol}}'>{{symbol}}</option>
-                {%endfor%}
-            </select>
-            <input type = "submit" id="submit">
-        </form>
-        <script type="text/javascript">
-            document.getElementById('symbol').value = "<?php echo $_POST['symbol'];?>";
-        </script>
-
-        <h1>{{symbol}}</h1>
-
-        {{ div|safe }}
-        {{ script|safe }}
-
-        <table border='1'>
-            <tr>
-                <td>Previous Close: {{stock_close}}</td>
-                <td>Market Cap: {{stock_marketCap}}</td>
-            </tr>
-            <tr>
-                <td>Open: {{stock_open}}</td>
-                <td>Beta: {{stock_beta}}</td>
-            </tr>
-            <tr>
-                <td>Bid: {{stock_bid}}</td>
-                <td>PE: {{stock_PE}}</td>
-            </tr>
-            <tr>
-                <td>Ask: {{stock_ask}}</td>
-                <td>EPS: {{stock_EPS}}</td>
-            </tr>
-            <tr>
-                <td>52 Week Range: {{stock_weekRange}}</td>
-                <td>Volume: {{stock_volume}}</td>
-            </tr>
-        </table>
-
-        
-        <table>
-            {%for item in news_list %}
-              {% for key, value in item.items %}
-            <tr>
-                <td>
-                {% if key == 'url' %}      
-                    <a href = "{{value}}">{{value}}</a>
-                </td>
-                <td>
-                {% elif key == 'title' %}      
-                    {{ value }}    
-                </td>
-                {% endif %}
-            </tr>
-                {%endfor%}
-            {%endfor%}
-        </table>
-        
-    </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-widgets.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.1.1/bokeh-tables.js"></script>
-    <script>
-        $.post({
-            url: "/dashboard/",
-            success: function(data){
-                console.log(data);
-            },
-            error: function() { console.log("Error", arguments); }
-
-        });
-    </script>
-    
-    <!--<script>
-        document.getElementById("submit").addEventListener("click", function(event){
-          event.preventDefault()
-        });
-    </script> -->
-
-    <!-- <script>
-        const response = await fetch('/plot')
-        const item = await response.json()
-        Bokeh.embed.embed_item(item)
-    </script>
--->
-</html>
+                    <div class="market-table-wrapper" style="margin-top: 3em">
+                        <table class="table">
+                            <tr>
+                                <td>Previous Close: {{stock_close}}</td>
+                                <td>Market Cap: {{stock_marketCap}}</td>
+                            </tr>
+                            <tr>
+                                <td>Open: {{stock_open}}</td>
+                                <td>Beta: {{stock_beta}}</td>
+                            </tr>
+                            <tr>
+                                <td>Bid: {{stock_bid}}</td>
+                                <td>PE: {{stock_PE}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ask: {{stock_ask}}</td>
+                                <td>EPS: {{stock_EPS}}</td>
+                            </tr>
+                            <tr>
+                                <td>52 Week Range: {{stock_weekRange}}</td>
+                                <td>Volume: {{stock_volume}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="news-wrapper">
+                        {%for item in news_list %}
+                          <div class="news-item">
+                              <div class="news-img-wrapper">
+                                  <a href="{{item.url}}"><img src="{% static 'images/news.jpg'%}" style="max-width: 100%"></a>
+                              </div>
+                              <div class="news-title-wrapper">
+                                <h5 class="news-title-text">{{ item.title }}</h5>
+                              </div>
+                          </div>
+                          
+                        {%endfor%}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
