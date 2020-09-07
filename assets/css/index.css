@@ -136,13 +136,16 @@ input.form-control{
 }
 .landing-title{
 	text-align: center;
+	margin-bottom: 25px;
+	font-size: 40px;
 }
 .landing-subtitle{
 	text-align: center;
+	text-align: center;
+	font-size: 20px;
 }
 .landing-getstarted{
 	text-align: center;
-	width: 82%;
 }
 .header-form-signin{
 	background-color: white;
@@ -159,9 +162,13 @@ input.form-control{
 	margin-left: 0;
 	width: 100%;
 }
+.landing-btn{
+	letter-spacing: 1px;
+	background-color: #00ff89;
+	border-radius: 35px !important;
+	font-weight: bold !important;
+	color: black !important;
+}
 .landing-wrapper{
-	background-image: url("../images/landingpage.jpg");
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	
 }
