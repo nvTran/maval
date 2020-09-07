@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Current annual return: {{percent_ret}} <br>
+    Current annual volability: {{percent_vols}} <br>
+    Current annual variance: {{percent_var}} <br>
+
+    <form action='/performance/' method='POST'>
+        {% csrf_token %}
+        <input type ='submit' id='submit'>
+    </form>
+
+    {% for key,value in stock_dict.items %}
+        Ideal {{key}} share: {{value}}<br>
+    {%endfor%}
+    <br>
+    {% for key,value in optimized_dict.items %}
+        Optimized annual {{key}}: {{value}}<br>
+    {%endfor%}
+
+</body>
+</html>
