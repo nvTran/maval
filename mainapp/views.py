@@ -278,6 +278,7 @@ def dashboard(request):
 
         return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list,'stock_close':stock_close,'stock_open':stock_open,'stock_bid':stock_bid,'stock_ask':stock_ask,'stock_volume':stock_volume,'stock_averageVolume':stock_averageVolume,'stock_marketCap':stock_marketCap,'stock_weekChange':stock_weekChange,'stock_beta':stock_beta,'stock_EPS':stock_EPS,'stock_PE':stock_PE,'stock_list':stock_list,'symbol':symbol}) 
     else:
+        stock_list = ["MSFT", "AAPL"]
         return render(request, 'dashboard.html',{'stock_list':stock_list})
        
 @login_required
