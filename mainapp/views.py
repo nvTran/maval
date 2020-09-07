@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from .models import *
+from .models import Portfolio, User, Profile, DailyWorth
 from django.contrib.auth.decorators import login_required
 from yahoo_fin import stock_info as si
 import yfinance as yf
@@ -26,6 +26,7 @@ from bokeh.plotting import figure
 from bokeh.embed import components, json_item
 
 from eventregistry import *
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -78,7 +79,8 @@ def playground(request):
         
         user = Profile.objects.get(user = current_user)
         if request.method == "GET":
-            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user })
+            all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
+            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user, "all_portfolios_of_current_users": all_portfolios_of_current_users })
         if request.method == 'POST':    
             stock_purchased = request.POST.dict()
             total_sum = 0
@@ -86,28 +88,36 @@ def playground(request):
             user_portfolios = Portfolio.objects.get(user = user)
             for key, value in stock_purchased.items():
                 if key == 'csrfmiddlewaretoken':
-                    pass
+                    continue
                 else:
                     if value != '':
+                        try:
+                            individual_port= Portfolio.objects.get(user = user, stock= key)
+                        except ObjectDoesNotExist:
+                            new_portfolio = Portfolio(user = user, stock = key, number = int(value))
+                            new_portfolio.save()
+                            continue
+                        
+                            
+                        
+                        individual_port.number += int(value)
+                        individual_port.save()
                         price = stock_and_prices[key]['price']
                         total_sum += price*int(value)
-                        if key in individual_port.portfolio.keys():
-                            individual_port[key] += value
-                        else:
-                            individual_port[key] = value
 
                     else:
-                        pass
-            individual_port.save()
-            current_budget = user.current_budget - total_sum
-            portfolio = Portfolio.objects.get(user= user)
+                        continue
+            # individual_port.save()
+            current_budget = float(user.current_budget) - total_sum
+            # portfolio = Portfolio.objects.get(user= user)
+            user.current_budget = current_budget
             
-
+            all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
             user.save()
             portfolio.save()
             message = 'you have spent $'+ str(total_sum)
             
-            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message })
+            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message, "all_portfolios_of_current_users": all_portfolios_of_current_users })
     else:
         return redirect(landingpage)
 
