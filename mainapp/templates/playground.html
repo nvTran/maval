@@ -30,7 +30,24 @@
         
         
     </div>
-    
+    <div>
+        Your current portfolio:
+        <table>
+            <tr>
+                <th>Stock</th>
+                <th>Amount</th>
+            </tr>
+            {% for port in all_portfolios_of_current_users %}
+            <tr>
+                <td>{{port.stock}}</td>
+            
+                <td>{{port.number}}</td>
+            </tr>
+            {% endfor %}
+        
+        </table>
+        
+    </div>
 
 
 </html>
