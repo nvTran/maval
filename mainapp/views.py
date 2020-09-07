@@ -35,9 +35,9 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
-from pypfopt.efficient_frontier import EfficientFrontier
-from pypfopt import risk_models
-from pypfopt import expected_returns
+# from pypfopt.efficient_frontier import EfficientFrontier
+# from pypfopt import risk_models
+# from pypfopt import expected_returns
 from datetime import datetime
 
 
@@ -124,7 +124,7 @@ def playground(request):
                             pass
                         
                             
-                        
+                        individual_port= Portfolio.objects.get(user = user, stock= key)
                         individual_port.number += int(value)
                         individual_port.save()
                         price = stock_and_prices[key]['price']
@@ -172,12 +172,7 @@ def dashboard(request):
             all_stocks.append(indv.stock)
     else:
         return redirect(landingpage)
-    print(all_stocks)
-
-
-
-
-
+    
 
     if request.method == 'POST':
         symbol = request.POST.get('symbol')
@@ -537,7 +532,40 @@ def risk(request):
     else: 
         return render(request, 'register.html')
 
+@login_required
 def performance(request):
+    current_user = request.user
+    user = Profile.objects.get(user = current_user)
+    all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
+    stock_and_prices = {}
+    stocks_held = {}
+    all_stocks = []
+    for stock in all_stocks:
+        price = si.get_live_price(stock)
+                
+        stock_and_prices[stock] = {'price': price}
+
+    for indv in all_portfolios_of_current_users:
+        all_stocks.append(indv.stock)
+
+    for indv in all_portfolios_of_current_users:
+        total_assets_worth += stock_and_prices[indv.stock]['price']  * indv.number
+
+    for indv in all_portfolios_of_current_users:
+        stock = indv.stock
+        number = indv.number
+        worth = stock_and_prices[indv.stock]['price']  * indv.number
+        # total_assets_worth += worth
+        percentage = stock_and_prices[indv.stock]['price']  * indv.number/ total_assets_worth
+
+        stocks_held[stock] = percentage
+
+    assets = []
+    weights = []
+    for stock, percentage in stocks_held:
+        assets.append(stock)
+        weights.append(percentage)
+
     if request.method == "POST":
         assets =  ["FB", "AMZN", "AAPL", "NFLX", "GOOG"]
         weights = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
@@ -599,7 +627,8 @@ def performance(request):
 
         stock_dict = {}
         for i in range(len(weight_list)):
-            stock_dict[assets[i]] = weight_list[i]
+            percentage = "{:.2%}".format(weight_list[i])
+            stock_dict[assets[i]] = percentage
 
         name_list = ['return','volatility','ratio']
         optimized_dict = {}
