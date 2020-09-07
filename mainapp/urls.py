@@ -12,7 +12,8 @@ urlpatterns = [
     path('playground/', views.playground, name='playground'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('risk/',views.risk, name='risk'),
-    path('register/',views.register, name='register')
+    path('register/',views.register, name='register'),
+    path('performance/',views.performance, name='performance')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
