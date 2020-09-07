@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    We find that a risk tolerance of {{riskTolerance}} % is suitable given your porfolio
-    <a href="/dashboard">Dashboard</a>
+{% extends "base_generic.html" %}
+{% load static %}
 
-    
-</body>
-</html>
+{% block content %}
+	<div class="risk-wrapper white" style="margin-bottom: 11em">
+		<div class="container">
+			<h2>We find that a risk tolerance of {{riskTolerance}} % is suitable given your porfolio</h2>
+			<a href="/playground" class="btn landing-btn">Explore Playground now</a>
+		</div>
+	</div>
+{% endblock %}

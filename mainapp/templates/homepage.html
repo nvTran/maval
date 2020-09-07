@@ -1,40 +1,36 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
 {% block content %}
-Welcome, {{user.user}}
-<div class="white">
+<div class="homepage-wrapper white">
 	<div class="container">
+		<h3>Welcome, {{user.user}}</h3>
 		<div class="row">
 			<div class="col-lg-3">
-				<div class="myinfo-wrapper">
-					<div class="myinfo-header">
-						<h4>placeholder</h4>
-					</div>
+				<div class="card" style="width: 100%;">
+				  <img class="card-img-top" src="{% static 'images/card1.jpg' %}" alt="Register" style="max-width: 100%; height: 11em">
+				  <div class="card-body">
+				    <h5 class="card-title">Information Register</h5>
+				    <a href="/register" class="btn landing-btn">Register</a>
+				  </div>
 				</div>
 			</div>
-			<div class="col-lg-6">
-				<div class="dashboard-wrapper">
-					<div class="dashboard-header">
-						<h4>placeholder</h4>
-					</div>
-					<img src="https://docs.imply.io/images/pivot-dashboard.png" style="max-width: 100%">
+			<div class="col-lg-3 col-lg-offset-1">
+				<div class="card" style="width: 100%;">
+				  <img class="card-img-top" src="{% static 'images/card2.jpg' %}" alt="Trial Investment" style="max-width: 100%; height: 11em">
+				  <div class="card-body">
+				    <h5 class="card-title">Trial Investment</h5>
+				    <a class="btn landing-btn" href="/playground">Playground</a>
+				  </div>
 				</div>
 			</div>
-			<div class="col-lg-3">
-				<div class="news-wrapper">
-					<div class="news-header">
-						<h4>placeholder</h4>
-					</div>
-					<div class="news-item">
-						<div class="news-item-wrapper">
-							<div class="news-item-img-wrapper">
-								<img src="https://docs.imply.io/images/pivot-dashboard.png" style="max-width: 100%">
-							</div>
-							<div class="news-item-headline">
-								<p>abc</p>
-							</div>
-						</div>
-					</div>
-					<div class="news-item">1</div>
-					<div class="news-item">1</div>
+			<div class="col-lg-3 col-lg-offset-1">
+				<div class="card" style="width: 100%;">
+				  <img class="card-img-top" src="{% static 'images/card3.jpg' %}" alt="Dashboard" style="max-width: 100%; height: 11em">
+				  <div class="card-body">
+				    <h5 class="card-title">Dashboard</h5>
+				    <a href="/dashboard" class="btn landing-btn">Dashboard</a>
+				  </div>
 				</div>
 			</div>
 		</div>

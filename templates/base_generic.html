@@ -58,7 +58,7 @@
                     <li><a href="services.html">Services</a></li>
                     <li><a href="portfolio.html">Portfolio</a></li>
                     {% if user.is_authenticated %}
-                      <li>User: {{ user.get_username }}</li>
+                      <li style="color: white"> {{ user.get_username }}</li>
                       <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
                     {% else %}
                       <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
@@ -76,12 +76,12 @@
                             
                         </div>
                     </div>
-                </div><!--/.item-->
-            </div><!--/.carousel-inner-->
-        </div><!--/.carousel-->
+                </div>
+            </div>
+        </div>
     </section> -->
     
-    <div id="content-wrapper" style="margin-bottom: 0; margin-top: 3em;">
+    <div id="content-wrapper" style="margin-bottom: 0; margin-top: 5em;">
       {% block content%}
       {% endblock %}
     </div>

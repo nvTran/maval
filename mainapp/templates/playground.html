@@ -1,62 +1,67 @@
-<!DOCTYPE html>
-<html>
-    <div>
-      
+{% extends "base_generic.html" %}
 
-        <h1>Welcome, {{user.user}}</h1>
-        Your current budget is ${{user.current_budget}}
-        <br>
-        You can trade your stocks here.
-        Set positive quantity is buying and negative quantity for selling.
-        <form method= 'POST'>
-            {% csrf_token %}
-            <table border = 1>
-                <tr>
-                    <th>Stock</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                  </tr>
-                {%for key, values in stock_and_prices.items %}
-                <tr>
-                    <td>{{ key }}</td>
-                    <td>${{values.price|floatformat:2}}</td>
-                    <td><input type="number" id="{{ key }}" name="{{ key }}" min= {{values.min}}></td>
-                    
-                </tr>
-                {%endfor%}
-            </table>
-            <button class="btn" type="submit">Trade</button>
-            {{ message }}
-        </form>
-        
-        
+{% block content %}
+<div class="playground-wrapper white">
+    <h3>Welcome, {{user.user}}</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="trade-table-wrapper">
+                    <h4>Your current budget is ${{user.current_budget}}</h4>
+                    <h6>You can trade your stocks here. Set <span style="color: green">positive</span> quantity for buying and <span style="color: red">negative</span> quantity for selling.</h6>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                  <th scope="col">Stock</th>
+                                  <th scope="col">Price</th>
+                                  <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for key, values in stock_and_prices.items %}
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    <td>${{values.price|floatformat:2}}</td>
+                                    <td><input type="number" id="{{ key }}" name="{{ key }}" min= {{values.min}}></td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                        <button class="btn landing-btn" type="submit">Trade</button>
+                        {{ message }}
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="portfolio-table-wrapper">
+                    <h4>Your current portfolio:</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Worth</th>
+                                <th scope="col">Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in stocks_held.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value.number}}</td>
+                                <td>${{value.worth|floatformat:2}}</td>
+                                <td>{{value.percentage|floatformat:2}}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h5>{{ assets_worth }}</h5>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        Your current portfolio:
-        <table border= 1>
-            <tr>
-                <th>Stock</th>
-                <th>Amount</th>
-                <th>Worth</th>
-                <th>Percentage</th>
-            </tr>
-            {% for key, value in stocks_held.items %}
-            <tr>
-                <td>{{key}}</td>
-            
-                <td>{{value.number}}</td>
-                <td>${{value.worth|floatformat:2}}</td>
-                <td>{{value.percentage|floatformat:2}}%</td>
-            </tr>
-            {% endfor %}
-        
-        </table>
-        {{ assets_worth }}
-        
-    </div>
-    <div>
-        
-    </div>
+</div>
 
-
-</html>
+{% endblock %}
