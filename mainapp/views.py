@@ -79,7 +79,7 @@ def playground(request):
     current_user = request.user
     if request.user.is_authenticated:
 
-        stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
+        stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI", "AMZN", "FB", "GOOGL", "GOOG", "JNJ" ]
         stock_and_prices = {}
         for stock in stock_list:
             price = si.get_live_price(stock)
@@ -172,7 +172,8 @@ def dashboard(request):
             all_stocks.append(indv.stock)
     else:
         return redirect(landingpage)
-    
+    if not all_stocks:
+        all_stocks = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI", "AMZN", "FB", "GOOGL", "GOOG", "JNJ" ]
 
     if request.method == 'POST':
         symbol = request.POST.get('symbol')
