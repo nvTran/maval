@@ -75,7 +75,7 @@ def playground(request):
         for stock in stock_list:
             price = si.get_live_price(stock)
                 
-            stock_and_prices[stock] = {'price': price}
+            stock_and_prices[stock] = {'price': price, 'min': 0}
         
         user = Profile.objects.get(user = current_user)
         if request.method == "GET":
@@ -88,6 +88,7 @@ def playground(request):
             for indv in all_portfolios_of_current_users:
                 stock = indv.stock
                 number = indv.number
+                stock_and_prices[stock]['min'] = 0 - number
                 worth = stock_and_prices[indv.stock]['price']  * indv.number
                 # total_assets_worth += worth
                 percentage = 100 * stock_and_prices[indv.stock]['price']  * indv.number/ total_assets_worth
@@ -130,7 +131,7 @@ def playground(request):
             all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
             user.save()
             # portfolio.save()
-            message = 'you have spent just $'+ str(total_sum)
+            message = 'You have purchased $'+ str(total_sum) + " worth of stocks"
             total_assets_worth = 0
             stocks_held = {}
             for indv in all_portfolios_of_current_users:
@@ -138,6 +139,7 @@ def playground(request):
             for indv in all_portfolios_of_current_users:
                 stock = indv.stock
                 number = indv.number
+                stock_and_prices[stock]['min'] = 0 - number
                 worth = stock_and_prices[indv.stock]['price']  * indv.number
                 # total_assets_worth += worth
                 percentage = 100 * stock_and_prices[indv.stock]['price']  * indv.number/ total_assets_worth

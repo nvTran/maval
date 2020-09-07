@@ -6,7 +6,8 @@
         <h1>Welcome, {{user.user}}</h1>
         Your current budget is ${{user.current_budget}}
         <br>
-        Here are the list of stock you can buy
+        You can trade your stocks here.
+        Set positive quantity is buying and negative quantity for selling.
         <form method= 'POST'>
             {% csrf_token %}
             <table border = 1>
@@ -19,12 +20,12 @@
                 <tr>
                     <td>{{ key }}</td>
                     <td>${{values.price|floatformat:2}}</td>
-                    <td><input type="number" id="{{ key }}" name="{{ key }}"></td>
+                    <td><input type="number" id="{{ key }}" name="{{ key }}" min= {{values.min}}></td>
                     
                 </tr>
                 {%endfor%}
             </table>
-            <input type='submit'>
+            <button class="btn" type="submit">Trade</button>
             {{ message }}
         </form>
         
