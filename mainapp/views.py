@@ -84,17 +84,33 @@ def playground(request):
         for stock in stock_list:
             price = si.get_live_price(stock)
                 
-            stock_and_prices[stock] = {'price': price}
+            stock_and_prices[stock] = {'price': price, 'min': 0}
         
         user = Profile.objects.get(user = current_user)
         if request.method == "GET":
             all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
-            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user, "all_portfolios_of_current_users": all_portfolios_of_current_users })
+            total_assets_worth = 0
+            stocks_held = {}
+            for indv in all_portfolios_of_current_users:
+                total_assets_worth += stock_and_prices[indv.stock]['price']  * indv.number
+
+            for indv in all_portfolios_of_current_users:
+                stock = indv.stock
+                number = indv.number
+                stock_and_prices[stock]['min'] = 0 - number
+                worth = stock_and_prices[indv.stock]['price']  * indv.number
+                # total_assets_worth += worth
+                percentage = 100 * stock_and_prices[indv.stock]['price']  * indv.number/ total_assets_worth
+
+                stocks_held[stock] = {"number": number, "percentage": percentage, "worth": worth}
+            assets_worth = "Your current assets is worth $"+ str(total_assets_worth)
+            print(stocks_held)
+            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user, "all_portfolios_of_current_users": all_portfolios_of_current_users, "assets_worth": assets_worth, "stocks_held": stocks_held })
         if request.method == 'POST':    
             stock_purchased = request.POST.dict()
             total_sum = 0
             # individual_port= Portfolio.objects.get_or_create(user = user)
-            user_portfolios = Portfolio.objects.get(user = user)
+            # user_portfolios = Portfolio.objects.get(user = user)
             for key, value in stock_purchased.items():
                 if key == 'csrfmiddlewaretoken':
                     continue
@@ -105,7 +121,7 @@ def playground(request):
                         except ObjectDoesNotExist:
                             new_portfolio = Portfolio(user = user, stock = key, number = int(value))
                             new_portfolio.save()
-                            continue
+                            pass
                         
                             
                         
@@ -123,10 +139,25 @@ def playground(request):
             
             all_portfolios_of_current_users = Portfolio.objects.filter(user = user)
             user.save()
-            portfolio.save()
-            message = 'you have spent $'+ str(total_sum)
+            # portfolio.save()
+            message = 'You have purchased $'+ str(total_sum) + " worth of stocks"
+            total_assets_worth = 0
+            stocks_held = {}
+            for indv in all_portfolios_of_current_users:
+                total_assets_worth += stock_and_prices[indv.stock]['price']  * indv.number
+            for indv in all_portfolios_of_current_users:
+                stock = indv.stock
+                number = indv.number
+                stock_and_prices[stock]['min'] = 0 - number
+                worth = stock_and_prices[indv.stock]['price']  * indv.number
+                # total_assets_worth += worth
+                percentage = 100 * stock_and_prices[indv.stock]['price']  * indv.number/ total_assets_worth
+
+                stocks_held[stock] = {"number": number, "percentage": percentage, "worth": worth}
+            assets_worth = "Your current assets is worth $"+ str(round(total_assets_worth, 2))
+            print(stocks_held)
             
-            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message, "all_portfolios_of_current_users": all_portfolios_of_current_users })
+            return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message, "all_portfolios_of_current_users": all_portfolios_of_current_users, "stocks_held": stocks_held, "assets_worth": assets_worth })
     else:
         return redirect(landingpage)
 
@@ -470,7 +501,7 @@ def register(request):
 @login_required
 def risk(request):
     if request.method == "POST":
-        currentBudget = request.POST.get('monthlyIncome')
+        currentBudget = request.POST.get('currentBudget')
         riskTolerance = 0
         if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
             riskTolerance = 0.5 
