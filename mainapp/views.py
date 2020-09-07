@@ -298,7 +298,7 @@ def register(request):
 @login_required
 def risk(request):
     if request.method == "POST":
-        currentBudget = request.POST.get('monthlyIncome')
+        currentBudget = request.POST.get('currentBudget')
         riskTolerance = 0
         if 1000 <= int(currentBudget) and  int(currentBudget) <= 3000:
             riskTolerance = 0.5 
