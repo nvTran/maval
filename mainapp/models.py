@@ -22,9 +22,19 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+class DailyWorth (models.Model):
+    user = models.TextField()
+    worth = models.IntegerField()
+    timestamp = models.DateField(auto_now_add=True)
+    
+
+class Portfolio(models.Model):
+    user = models.TextField()
+    stock = models.CharField(max_length=25)
+    number = models.IntegerField()
 
 class Trading(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.TextField()
     transaction_id = models.CharField(max_length=25)
     symbol = models.TextField()
     current_price_per_share = models.TextField()
@@ -32,6 +42,7 @@ class Trading(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Stock(models.Model):
+    stock = models.CharField(max_length=25)
     price = models.TextField()
-    time_stamp = models.DateTimeField(auto_now_add=True)
+    time_stamp = models.DateField(auto_now_add=True)
 

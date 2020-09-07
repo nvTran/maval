@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from .models import Profile
+from .models import *
 from django.contrib.auth.decorators import login_required
 from yahoo_fin import stock_info as si
 import yfinance as yf
@@ -72,11 +72,6 @@ def playground(request):
         stock_list = ["MMM", "ABT", "ABBV", "ABMD", "ACN", "ATVI"]
         stock_and_prices = {}
         for stock in stock_list:
-            # try:
-            #     company_name =  yf.Ticker(stock).info['longName']
-            # except IndexError:
-            #     company_name = ""
-            
             price = si.get_live_price(stock)
                 
             stock_and_prices[stock] = {'price': price}
@@ -86,8 +81,9 @@ def playground(request):
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user': user })
         if request.method == 'POST':    
             stock_purchased = request.POST.dict()
-            print(stock_purchased)
             total_sum = 0
+            # individual_port= Portfolio.objects.get_or_create(user = user)
+            user_portfolios = Portfolio.objects.get(user = user)
             for key, value in stock_purchased.items():
                 if key == 'csrfmiddlewaretoken':
                     pass
@@ -95,8 +91,20 @@ def playground(request):
                     if value != '':
                         price = stock_and_prices[key]['price']
                         total_sum += price*int(value)
+                        if key in individual_port.portfolio.keys():
+                            individual_port[key] += value
+                        else:
+                            individual_port[key] = value
+
                     else:
                         pass
+            individual_port.save()
+            current_budget = user.current_budget - total_sum
+            portfolio = Portfolio.objects.get(user= user)
+            
+
+            user.save()
+            portfolio.save()
             message = 'you have spent $'+ str(total_sum)
             
             return render(request,'playground.html',{'stock_and_prices': stock_and_prices, 'user':user, 'message': message })
@@ -205,16 +213,78 @@ def dashboard(request):
             lang = 'eng'
         )
         news_list = q.execQuery(er, sortBy = ["rel","date","sourceImportance"], maxItems = 5, )
-        return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list}) 
+
+        url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/get-detail"
+
+        querystring = {"region":"US","lang":"en","symbol":symbol}
+
+        headers = {
+            'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
+            'x-rapidapi-key': "ff4cff81d5msh596a92309f2f43ap13412cjsn002bc2a74b4d"
+            }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        json_dict  = json.loads(response.text)
+
+
+        for key in json_dict.keys():
+            if key == "summaryDetail":
+                try:
+                    stock_close = json_dict[key]['previousClose']['raw']
+                except KeyError:
+                    stock_close = ''
+                    
+                try:
+                    stock_open = json_dict[key]['open']['raw']
+                except KeyError:
+                    stock_open = ''
+                try:
+                    stock_bid = json_dict[key]['bid']['raw']
+                except KeyError:
+                    stock_bid = ''
+                try:
+                    stock_ask = json_dict[key]['ask']['raw']
+                except KeyError:
+                    stock_ask = ''
+                try:
+                    stock_volume = json_dict[key]['volume']['fmt']
+                except KeyError:
+                    stock_volume = ''
+                try:
+                    stock_averageVolume = json_dict[key]['averageVolume']['fmt']
+                except KeyError:
+                    stock_averageVolume = ''
+                try:
+                    stock_marketCap = json_dict[key]['marketCap']['fmt']    
+                except KeyError:  
+                    stock_marketCap = ''
+            if key == "defaultKeyStatistics":
+                try:
+                    stock_weekChange = json_dict[key]['52WeekChange']['fmt']
+                except KeyError:
+                    stock_weekChange = ''
+                try:
+                    stock_beta = json_dict[key]['beta']['fmt']
+                except KeyError:
+                    stock_beta = ''
+                try:
+                    stock_EPS = json_dict[key]['trailingEps']['raw']
+                except KeyError:
+                    stock_EPS = ''
+                try:
+                    stock_PE = json_dict[key]['forwardPE']['fmt']
+                except KeyError:
+                    stock_PE = ''
+
+        return render(request, 'dashboard.html', {**kwargs, 'news_list' : news_list,'stock_close':stock_close,'stock_open':stock_open,'stock_bid':stock_bid,'stock_ask':stock_ask,'stock_volume':stock_volume,'stock_averageVolume':stock_averageVolume,'stock_marketCap':stock_marketCap,'stock_weekChange':stock_weekChange,'stock_beta':stock_beta,'stock_EPS':stock_EPS,'stock_PE':stock_PE,'stock_list':stock_list,'symbol':symbol}) 
     else:
-        return render(request, 'dashboard.html')
-
+        return render(request, 'dashboard.html',{'stock_list':stock_list})
        
-
+@login_required
 def register(request):
     return render(request, "register.html")
     
-
+@login_required
 def risk(request):
     if request.method == "POST":
         currentBudget = request.POST.get('monthlyIncome')
@@ -227,8 +297,10 @@ def risk(request):
             riskTolerance = 2.5
         elif int(currentBudget) > 10000:
             riskTolerance = 3.5
-        else: 
-            return render(request, 'register.html')
+        current_user = request.user
+        user = Profile.objects.get(user = current_user)
+        user.current_budget = currentBudget
+        user.save()
         
         return render(request, 'risk.html', {'riskTolerance': riskTolerance})
     else: 

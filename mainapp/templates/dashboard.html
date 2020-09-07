@@ -21,19 +21,48 @@
         <form action="/dashboard/" name='stock' method="POST">
             {% csrf_token %}
 
-            <input type = "text" name = "symbol">
+            <label for="symbol">What stock you want to view:</label>
+            <select name='symbol' id='symbol'>
+                {% for symbol in stock_list %}
+                <option value = '{{symbol}}'>{{symbol}}</option>
+                {%endfor%}
+            </select>
             <input type = "submit" id="submit">
         </form>
+        <script type="text/javascript">
+            document.getElementById('symbol').value = "<?php echo $_POST['symbol'];?>";
+        </script>
+
+        <h1>{{symbol}}</h1>
 
         {{ div|safe }}
         {{ script|safe }}
+
+        <table border='1'>
+            <tr>
+                <td>Previous Close: {{stock_close}}</td>
+                <td>Market Cap: {{stock_marketCap}}</td>
+            </tr>
+            <tr>
+                <td>Open: {{stock_open}}</td>
+                <td>Beta: {{stock_beta}}</td>
+            </tr>
+            <tr>
+                <td>Bid: {{stock_bid}}</td>
+                <td>PE: {{stock_PE}}</td>
+            </tr>
+            <tr>
+                <td>Ask: {{stock_ask}}</td>
+                <td>EPS: {{stock_EPS}}</td>
+            </tr>
+            <tr>
+                <td>52 Week Range: {{stock_weekRange}}</td>
+                <td>Volume: {{stock_volume}}</td>
+            </tr>
+        </table>
+
         
         <table>
-            <tr>
-                <th>URL</th>
-                <th>Title</th>
-                <th>Body</th>
-            </tr>
             {%for item in news_list %}
               {% for key, value in item.items %}
             <tr>
