@@ -1,27 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Current annual return: {{percent_ret}} <br>
-    Current annual volability: {{percent_vols}} <br>
-    Current annual variance: {{percent_var}} <br>
+{% extends "base_generic.html" %}
 
-    <form action='/performance/' method='POST'>
-        {% csrf_token %}
-        <input type ='submit' id='submit'>
-    </form>
+{% block content %}
+<div class="optimise-wrapper white">
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th scope="row">Current annual return</th>
+                <td>{{percent_ret}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Current annual volability</th>
+                <td>{{percent_vols}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Current annual variance</th>
+                <td>{{percent_var}}</td>
+            </tr>
+        </table>
+        <form action='/performance/' method='POST'>
+            {% csrf_token %}
+            <button type="submit" id="submit" class="btn landing-btn">Optimise Portfolio</button>
+        </form>
 
-    {% for key,value in stock_dict.items %}
-        Ideal {{key}} share: {{value}}<br>
-    {%endfor%}
-    <br>
-    {% for key,value in optimized_dict.items %}
-        Optimized annual {{key}}: {{value}}<br>
-    {%endfor%}
-
-</body>
-</html>
+        <div class="optimise-result-wrapper">
+            <table class="table ideal-table">
+                {% for key,value in stock_dict.items %}
+                <tr>
+                    <th scope="row">Ideal {{key}} share</th>
+                    <td>{{value}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+            <table class="table optimise-table">
+                {% for key,value in optimized_dict.items %}
+                <tr>
+                    <th scope="row" style="width: 488px;">Optimized annual {{key}}</th>
+                    <td>{{value}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
