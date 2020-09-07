@@ -117,7 +117,7 @@ def playground(request):
                 else:
                     if value != '':
                         try:
-                            individual_port= Portfolio.objects.get(user = user, stock= key)
+                            individual_port= Portfolio.objects.get_or_create(user = user, stock= key)
                         except ObjectDoesNotExist:
                             new_portfolio = Portfolio(user = user, stock = key, number = int(value))
                             new_portfolio.save()
