@@ -599,7 +599,8 @@ def performance(request):
 
         stock_dict = {}
         for i in range(len(weight_list)):
-            stock_dict[assets[i]] = weight_list[i]
+            percentage = "{:.2%}".format(weight_list[i])
+            stock_dict[assets[i]] = percentage
 
         name_list = ['return','volatility','ratio']
         optimized_dict = {}
