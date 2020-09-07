@@ -35,9 +35,9 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
-# from pypfopt.efficient_frontier import EfficientFrontier
-# from pypfopt import risk_models
-# from pypfopt import expected_returns
+from pypfopt.efficient_frontier import EfficientFrontier
+from pypfopt import risk_models
+from pypfopt import expected_returns
 from datetime import datetime
 
 
@@ -540,13 +540,16 @@ def performance(request):
     stock_and_prices = {}
     stocks_held = {}
     all_stocks = []
+    total_assets_worth = 0
+    for indv in all_portfolios_of_current_users:
+        all_stocks.append(indv.stock)
+
     for stock in all_stocks:
         price = si.get_live_price(stock)
                 
         stock_and_prices[stock] = {'price': price}
-
-    for indv in all_portfolios_of_current_users:
-        all_stocks.append(indv.stock)
+    print(stock_and_prices)
+    
 
     for indv in all_portfolios_of_current_users:
         total_assets_worth += stock_and_prices[indv.stock]['price']  * indv.number
@@ -562,13 +565,13 @@ def performance(request):
 
     assets = []
     weights = []
-    for stock, percentage in stocks_held:
+    for stock, percentage in stocks_held.items():
         assets.append(stock)
         weights.append(percentage)
 
     if request.method == "POST":
-        assets =  ["FB", "AMZN", "AAPL", "NFLX", "GOOG"]
-        weights = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
+        assets =  assets
+        weights = np.array(weights)
         #Get the stock starting date
         stockStartDate = '2017-01-01'
         # Get the stocks ending date aka todays date and format it in the form YYYY-MM-DD
@@ -639,8 +642,8 @@ def performance(request):
         return render(request, 'performance.html',{'weight_list':weight_list,'assets':assets, 'ef_return':ef_return,'ef_volatility':ef_volatility,'ef_ratio':ef_ratio,'percent_var':percent_var, 'percent_vols':percent_vols, 'percent_ret':percent_ret,'stock_dict':stock_dict,'optimized_dict':optimized_dict})
 
     else:
-        assets =  ["FB", "AMZN", "AAPL", "NFLX", "GOOG"]
-        weights = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
+        assets =  assets
+        weights = np.array(weights)
         #Get the stock starting date
         stockStartDate = '2017-01-01'
         # Get the stocks ending date aka todays date and format it in the form YYYY-MM-DD
